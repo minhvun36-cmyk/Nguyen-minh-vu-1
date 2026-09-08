@@ -1,0 +1,164 @@
+BÀI 1:
+a) Ý nghĩa của tính đóng gói (Encapsulation) trong lập trình hướng đối tượng
+Đóng gói (Encapsulation) là một trong những tính chất quan trọng của lập trình hướng đối tượng. Đóng gói là việc gom dữ liệu và các phương thức xử lý dữ liệu vào cùng một lớp, đồng thời kiểm soát quyền truy cập vào các thành phần bên trong lớp.
+Ý nghĩa của tính đóng gói:
+− Bảo vệ dữ liệu, tránh việc dữ liệu bị thay đổi hoặc truy cập tùy ý từ bên ngoài.
+− Che giấu các chi tiết cài đặt bên trong đối tượng.
+− Kiểm soát cách dữ liệu được truy cập và thay đổi.
+− Giúp chương trình dễ bảo trì, sửa đổi và phát triển.
+b) Phân biệt các Access Modifiers: private, protected, internal và public
+1. Private: là mức độ truy cập hạn chế nhất. Thành phần được khai báo private chỉ có thể được truy cập bên trong chính class khai báo nó.
+2. Protected: cho phép thành phần được truy cập bên trong chính class khai báo và các class kế thừa từ class đó.
+3. Internal: cho phép thành phần được truy cập bởi các class nằm trong cùng một Assembly, thông thường có thể hiểu là cùng project.
+4. Public: là mức độ truy cập rộng nhất. Thành phần được khai báo public có thể được truy cập từ mọi nơi khi đối tượng và class đó có thể truy cập được.
+Bảng so sánh tóm tắt:
+private
+
+Chỉ truy cập trong chính class khai báo.
+
+protected
+
+Truy cập trong class khai báo và các class kế thừa.
+
+internal
+
+Truy cập trong cùng Assembly/project.
+
+public
+
+Có thể truy cập từ mọi nơi.
+
+ 
+c) Từ khóa init trong C# 9+ và sự khác nhau giữa init với set
+Từ khóa init được giới thiệu từ C# 9, dùng để khai báo Property chỉ có thể được thiết lập giá trị trong quá trình khởi tạo đối tượng. Sau khi đối tượng đã được khởi tạo thì Property sử dụng init không thể thay đổi giá trị.
+Sự khác nhau giữa init và set:
+− set: Property có thể được gán giá trị khi khởi tạo và có thể thay đổi giá trị sau khi đối tượng đã được khởi tạo.
+− init: Property có thể được gán giá trị khi khởi tạo nhưng không thể thay đổi sau khi đối tượng đã được khởi tạo.
+Có thể hiểu đơn giản:
+set: Có thể thiết lập và thay đổi giá trị.
+init: Chỉ thiết lập giá trị khi khởi tạo, sau đó không thể thay đổi.
+BÀI 2:
+a) C# có hỗ trợ đa kế thừa đối với Lớp (Class) không? Sử dụng ký tự nào để khai báo sự kế thừa?
+C# không hỗ trợ đa kế thừa đối với Class. Điều này có nghĩa là một Class trong C# chỉ có thể kế thừa trực tiếp từ một Class cha duy nhất.
+Để khai báo sự kế thừa trong C#, sử dụng ký tự hai chấm (:).
+Cú pháp:
+class LopCon : LopCha
+{
+​// Các thuộc tính và phương thức
+}
+Tuy C# không cho phép một Class kế thừa từ nhiều Class, nhưng một Class có thể kế thừa một Class và triển khai nhiều Interface.
+b) Từ khóa base được sử dụng trong trường hợp nào khi làm việc với Constructor của lớp con?
+Từ khóa base được sử dụng trong Constructor của Class con để gọi Constructor của Class cha.
+Điều này thường được sử dụng khi Class cha có Constructor yêu cầu tham số và Class con muốn truyền dữ liệu lên cho Class cha khởi tạo.
+Cú pháp:
+class LopCon : LopCha
+{
+public LopCon(tham_so) : base(tham_so)
+​{
+​​// Thân Constructor của lớp con
+​}
+}
+Tóm lại: base trong Constructor dùng để gọi Constructor của Class cha và truyền tham số từ Class con lên Class cha.
+ 
+c) Từ khóa sealed có tác dụng gì khi đặt trước khai báo của một Class?
+Từ khóa sealed được sử dụng để ngăn không cho Class đó bị kế thừa.
+Khi một Class được khai báo là sealed, không Class nào khác có thể kế thừa từ Class đó.
+Cú pháp:
+sealed class TenLop
+{
+}
+Tóm lại: sealed dùng để ngăn chặn việc kế thừa từ một Class.
+Ghi nhớ:
+− Dấu hai chấm (:) dùng để khai báo sự kế thừa.
+− base dùng để gọi Constructor hoặc truy cập thành phần của Class cha.
+− sealed dùng để ngăn không cho Class bị kế thừa.
+− C# không hỗ trợ đa kế thừa đối với Class.
+− Một Class có thể triển khai nhiều Interface.
+BÀI 3
+a) Trình bày sự khác biệt cốt lõi giữa Compile-time Polymorphism (Method Overloading) và Runtime Polymorphism (Method Overriding).
+Tính đa hình (Polymorphism) trong C# cho phép cùng một tên phương thức nhưng có thể thực hiện các hành vi khác nhau tùy vào trường hợp sử dụng.
+Có hai dạng đa hình phổ biến:
+1. Compile-time Polymorphism – Method Overloading
+Method Overloading (nạp chồng phương thức) là việc trong cùng một Class có nhiều phương thức có cùng tên nhưng khác nhau về danh sách tham số.
+Việc xác định phương thức nào được gọi được thực hiện tại thời điểm biên dịch (Compile-time), dựa vào số lượng, kiểu dữ liệu hoặc thứ tự của các tham số.
+=> Đặc điểm: Method Overloading được quyết định tại thời điểm biên dịch.
+2. Runtime Polymorphism – Method Overriding
+Method Overriding (ghi đè phương thức) xảy ra khi Class con định nghĩa lại một phương thức đã có trong Class cha.
+Phương thức được ghi đè phải có cùng tên, cùng danh sách tham số và kiểu trả về phù hợp với phương thức trong Class cha.
+Việc xác định phương thức nào được thực thi xảy ra tại thời điểm chương trình đang chạy (Runtime), dựa vào đối tượng thực tế.
+=> Đặc điểm: Method Overriding được quyết định tại thời điểm chạy chương trình.
+Sự khác biệt cốt lõi:
+− Method Overloading: Cùng tên phương thức nhưng khác tham số. Được xác định tại Compile-time.
+− Method Overriding: Class con định nghĩa lại phương thức của Class cha. Được xác định tại Runtime.
+− Overloading thường xảy ra trong cùng một Class, còn Overriding xảy ra giữa Class cha và Class con.
+− Overloading không yêu cầu từ khóa virtual hoặc override.
+− Overriding yêu cầu phương thức ở Class cha được khai báo bằng virtual, abstract hoặc một số trường hợp phù hợp khác; Class con sử dụng override để ghi đè.
+b) Để một phương thức ở lớp cha có thể bị ghi đè ở lớp con, phương thức đó cần được đánh dấu bằng từ khóa nào? Phương thức ở lớp con dùng từ khóa nào để ghi đè?
+Để một phương thức trong Class cha có thể bị ghi đè ở Class con, phương thức đó thường được khai báo với từ khóa virtual.
+Phương thức trong Class con sử dụng từ khóa override để ghi đè phương thức của Class cha.
+Class cha: virtual
+Class con: override
+=> virtual cho phép ghi đè, còn override thực hiện việc ghi đè.
+BÀI 4:
+Dựa vào bảng so sánh trong tài liệu, hãy nêu ít nhất 3 điểm khác biệt giữa Abstract Class (Lớp trừu tượng) và Interface (Giao diện). Khi nào bạn quyết định dùng Abstract Class thay vì Interface?
+Abstract Class (Lớp trừu tượng) và Interface (Giao diện) đều được sử dụng để xây dựng tính trừu tượng trong lập trình hướng đối tượng. Tuy nhiên, chúng có một số điểm khác biệt như sau:
+1. Khác nhau về khai báo và kế thừa
+− Một Class chỉ có thể kế thừa trực tiếp từ một Abstract Class.
+− Một Class có thể triển khai nhiều Interface.
+2. Khác nhau về thuộc tính và phương thức
+− Abstract Class có thể chứa cả phương thức có cài đặt và phương thức trừu tượng chưa có cài đặt.
+− Interface chủ yếu dùng để định nghĩa các thành phần mà Class triển khai phải thực hiện. Interface hiện đại cũng có thể chứa một số thành phần có cài đặt mặc định, nhưng cách sử dụng và mục đích vẫn khác Abstract Class.
+3. Khác nhau về biến và trạng thái dữ liệu
+− Abstract Class có thể chứa các biến thành viên (field), thuộc tính và Constructor để lưu trữ và khởi tạo trạng thái chung cho các Class con.
+− Interface không được sử dụng như một Class để lưu trữ trạng thái đối tượng bằng các field instance thông thường.
+4. Khác nhau về mục đích sử dụng
+− Abstract Class thường được sử dụng khi các Class con có mối quan hệ gần gũi và có nhiều đặc điểm, thuộc tính hoặc hành vi chung.
+− Interface thường được sử dụng để xác định một tập hợp các hành vi mà nhiều Class khác nhau có thể cùng thực hiện, kể cả khi chúng không có quan hệ kế thừa trực tiếp.
+Khi nào quyết định dùng Abstract Class thay vì Interface?
+Nên sử dụng Abstract Class khi các Class có quan hệ với nhau và có nhiều thuộc tính hoặc phương thức dùng chung.
+Tóm lại:
+− Abstract Class: phù hợp khi các Class có quan hệ kế thừa chặt chẽ và cần chia sẻ dữ liệu, Constructor hoặc code dùng chung.
+− Interface: phù hợp khi muốn định nghĩa một khả năng/hợp đồng chung và cho phép một Class triển khai nhiều giao diện khác nhau.
+Ghi nhớ:
+Abstract Class = "Lớp cha chung có thể chứa sẵn code và dữ liệu."
+Interface = "Hợp đồng quy định Class phải thực hiện những gì."
+BÀI 5:
+a) Extension Method là gì? Để tạo một Extension Method, ta cần thỏa mãn những điều kiện gì?
+Extension Method (phương thức mở rộng) là một phương thức cho phép bổ sung thêm chức năng cho một Class, Interface hoặc kiểu dữ liệu đã có sẵn mà không cần sửa đổi hoặc tạo Class kế thừa từ kiểu đó.
+Extension Method được khai báo như một phương thức static nằm bên trong một static class.
+Để tạo một Extension Method, cần thỏa mãn các điều kiện sau:
+− Phải được khai báo bên trong một static class.
+− Bản thân Extension Method phải là một phương thức static.
+− Tham số đầu tiên của phương thức phải có từ khóa this đứng trước kiểu dữ liệu cần mở rộng.
+− Tham số đầu tiên xác định kiểu dữ liệu mà Extension Method muốn mở rộng.
+Cú pháp:
+public static class TenLopMoRong
+{
+​public static kieuTraVe TenPhuongThuc(this KieuDuLieu doiTuong)
+}
+Tóm lại:
+Extension Method = phương thức mở rộng thêm chức năng cho kiểu dữ liệu có sẵn.
+Điều kiện quan trọng cần nhớ:
+static class + static method + tham số đầu tiên có từ khóa this.
+ 
+b) Kể tên và nêu tác dụng của 3 phương thức LINQ cốt lõi thường được sử dụng để truy vấn danh sách dữ liệu.
+LINQ (Language Integrated Query) là công nghệ trong C# cho phép truy vấn và xử lý dữ liệu một cách thuận tiện. LINQ cung cấp nhiều phương thức để lọc, sắp xếp, tìm kiếm và xử lý danh sách dữ liệu.
+Ba phương thức LINQ thường được sử dụng là Where(), Select() và OrderBy().
+1. Where()
+Where() dùng để lọc các phần tử trong danh sách theo một điều kiện.
+=> Tác dụng: Lọc dữ liệu theo điều kiện.
+2. Select()
+Select() dùng để lựa chọn hoặc biến đổi dữ liệu từ các phần tử trong danh sách.
+=> Tác dụng: Chọn hoặc biến đổi dữ liệu.
+3. OrderBy()
+OrderBy() dùng để sắp xếp các phần tử trong danh sách theo thứ tự tăng dần dựa trên một tiêu chí.
+=> Tác dụng: Sắp xếp dữ liệu theo thứ tự tăng hoặc giảm.
+Tóm lại:
+− Where(): Lọc dữ liệu theo điều kiện.
+− Select(): Chọn hoặc biến đổi dữ liệu.
+− OrderBy(): Sắp xếp dữ liệu theo tiêu chí.
+Ghi nhớ:
+Where = Lọc
+Select = Chọn/biến đổi
+OrderBy = Sắp xếp
+ 
