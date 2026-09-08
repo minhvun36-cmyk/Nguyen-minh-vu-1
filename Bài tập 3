@@ -1,0 +1,118 @@
+using System;
+using System.Collections.Generic;
+
+class DiscountCalculator
+{
+    public decimal ApplyDiscount(decimal totalAmount)
+    {
+        return totalAmount * 0.95m;
+    }
+
+    public decimal ApplyDiscount(decimal totalAmount, double percentage)
+    {
+        return totalAmount - totalAmount * (decimal)percentage / 100;
+    }
+
+    public decimal ApplyDiscount(decimal totalAmount, decimal fixedVoucher, decimal minimumOrder)
+    {
+        if (totalAmount >= minimumOrder)
+        {
+            return totalAmount - fixedVoucher;
+        }
+
+        return totalAmount;
+    }
+}
+
+class DeliveryService
+{
+    public string OrderId { get; set; }
+    public double DistanceKm { get; set; }
+
+    public DeliveryService(string orderId, double distanceKm)
+    {
+        OrderId = orderId;
+        DistanceKm = distanceKm;
+    }
+
+    public virtual decimal CalculateShippingFee()
+    {
+        return (decimal)DistanceKm * 5000;
+    }
+}
+
+class ExpressDelivery : DeliveryService
+{
+    public ExpressDelivery(string orderId, double distanceKm)
+        : base(orderId, distanceKm)
+    {
+    }
+
+    public override decimal CalculateShippingFee()
+    {
+        decimal phiCoBan = base.CalculateShippingFee();
+        return phiCoBan * 1.5m + 20000;
+    }
+}
+
+class EcoDelivery : DeliveryService
+{
+    public EcoDelivery(string orderId, double distanceKm)
+        : base(orderId, distanceKm)
+    {
+    }
+
+    public override decimal CalculateShippingFee()
+    {
+        decimal phiCoBan = base.CalculateShippingFee();
+
+        if (DistanceKm > 10)
+        {
+            return phiCoBan * 0.9m;
+        }
+
+        return phiCoBan;
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        DiscountCalculator discount = new DiscountCalculator();
+
+        Console.WriteLine("===== TINH GIAM GIA =====");
+
+        decimal donHang = 500000;
+
+        decimal giamMacDinh = discount.ApplyDiscount(donHang);
+        Console.WriteLine("Don hang: " + donHang + " VND");
+        Console.WriteLine("Sau khi giam 5%: " + giamMacDinh + " VND");
+
+        decimal giamTheoPhanTram = discount.ApplyDiscount(donHang, 10);
+        Console.WriteLine("Sau khi giam 10%: " + giamTheoPhanTram + " VND");
+
+        decimal giamVoucher = discount.ApplyDiscount(donHang, 50000, 300000);
+        Console.WriteLine("Sau khi dung voucher 50000 VND: " + giamVoucher + " VND");
+
+        Console.WriteLine();
+
+        Console.WriteLine("===== TINH PHI VAN CHUYEN =====");
+
+        List<DeliveryService> danhSach = new List<DeliveryService>();
+
+        danhSach.Add(new ExpressDelivery("DH01", 8));
+        danhSach.Add(new EcoDelivery("DH02", 8));
+        danhSach.Add(new EcoDelivery("DH03", 15));
+
+        foreach (DeliveryService delivery in danhSach)
+        {
+            Console.WriteLine();
+            Console.WriteLine("Ma don hang: " + delivery.OrderId);
+            Console.WriteLine("Quang duong: " + delivery.DistanceKm + " km");
+            Console.WriteLine("Phi van chuyen: " + delivery.CalculateShippingFee() + " VND");
+        }
+
+        Console.ReadKey();
+    }
+}
