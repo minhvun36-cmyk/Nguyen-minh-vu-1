@@ -1,0 +1,140 @@
+using System;
+
+class BankAccount
+{
+    private static long _nextAccountNumber = 1000000001;
+    private decimal _balance;
+    private string _accountHolder;
+
+    public long AccountNumber { get; private set; }
+
+    public string AccountHolder
+    {
+        get
+        {
+            return _accountHolder;
+        }
+        set
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                throw new ArgumentException("Ten chu tai khoan khong duoc de trong!");
+            }
+
+            _accountHolder = value;
+        }
+    }
+
+    public decimal Balance
+    {
+        get
+        {
+            return _balance;
+        }
+    }
+
+    public BankAccount(string accountHolder, decimal initialBalance)
+    {
+        if (string.IsNullOrWhiteSpace(accountHolder))
+        {
+            throw new ArgumentException("Ten chu tai khoan khong duoc de trong!");
+        }
+
+        if (initialBalance < 50000)
+        {
+            throw new ArgumentException("So du ban dau phai tu 50.000 VND tro len!");
+        }
+
+        AccountNumber = _nextAccountNumber;
+        _nextAccountNumber++;
+
+        AccountHolder = accountHolder;
+        _balance = initialBalance;
+    }
+
+    public void Deposit(decimal amount)
+    {
+        if (amount <= 0)
+        {
+            throw new ArgumentException("So tien nap phai lon hon 0!");
+        }
+
+        _balance = _balance + amount;
+    }
+
+    public bool Withdraw(decimal amount)
+    {
+        if (amount <= 0)
+        {
+            return false;
+        }
+
+        if (_balance - amount < 50000)
+        {
+            return false;
+        }
+
+        _balance = _balance - amount;
+        return true;
+    }
+
+    public void DisplayInfo()
+    {
+        Console.WriteLine("So tai khoan: " + AccountNumber);
+        Console.WriteLine("Chu tai khoan: " + AccountHolder);
+        Console.WriteLine("So du: " + Balance.ToString("N0") + " VND");
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        try
+        {
+            BankAccount account1 = new BankAccount("Nguyen Van A", 1000000);
+            BankAccount account2 = new BankAccount("Tran Thi B", 2000000);
+
+            account1.DisplayInfo();
+            Console.WriteLine();
+
+            account2.DisplayInfo();
+            Console.WriteLine();
+
+            account1.Deposit(500000);
+            Console.WriteLine("So du sau khi nap: " + account1.Balance.ToString("N0") + " VND");
+
+            bool ketQua = account1.Withdraw(300000);
+
+            if (ketQua)
+            {
+                Console.WriteLine("Rut tien thanh cong!");
+            }
+            else
+            {
+                Console.WriteLine("Rut tien that bai!");
+            }
+
+            Console.WriteLine("So du sau khi rut: " + account1.Balance.ToString("N0") + " VND");
+
+            bool ketQua2 = account1.Withdraw(2000000);
+
+            if (ketQua2)
+            {
+                Console.WriteLine("Rut tien thanh cong!");
+            }
+            else
+            {
+                Console.WriteLine("Rut tien that bai! So du phai con it nhat 50.000 VND.");
+            }
+
+            BankAccount account3 = new BankAccount("Le Van C", 30000);
+        }
+        catch (ArgumentException ex)
+        {
+            Console.WriteLine("Loi: " + ex.Message);
+        }
+
+        Console.ReadKey();
+    }
+}
