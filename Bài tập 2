@@ -1,0 +1,114 @@
+using System;
+
+class Person
+{
+    public string Id { get; set; }
+    public string FullName { get; set; }
+    public int BirthYear { get; set; }
+
+    public Person(string id, string fullName, int birthYear)
+    {
+        Id = id;
+        FullName = fullName;
+        BirthYear = birthYear;
+    }
+
+    public int GetAge(int currentYear)
+    {
+        return currentYear - BirthYear;
+    }
+}
+
+class Employee : Person
+{
+    public decimal BaseSalary { get; set; }
+
+    public Employee(string id, string fullName, int birthYear, decimal baseSalary)
+        : base(id, fullName, birthYear)
+    {
+        BaseSalary = baseSalary;
+    }
+
+    public virtual decimal CalculateIncome()
+    {
+        return BaseSalary;
+    }
+}
+
+sealed class Manager : Employee
+{
+    public decimal ResponsibilityAllowance { get; set; }
+
+    public Manager(string id, string fullName, int birthYear, decimal baseSalary, decimal allowance)
+        : base(id, fullName, birthYear, baseSalary)
+    {
+        ResponsibilityAllowance = allowance;
+    }
+
+    public override decimal CalculateIncome()
+    {
+        return BaseSalary + ResponsibilityAllowance;
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        Console.WriteLine("NHAP THONG TIN NHAN VIEN");
+
+        Console.Write("Nhap ID: ");
+        string id1 = Console.ReadLine();
+
+        Console.Write("Nhap ho ten: ");
+        string name1 = Console.ReadLine();
+
+        Console.Write("Nhap nam sinh: ");
+        int year1 = int.Parse(Console.ReadLine());
+
+        Console.Write("Nhap luong co ban: ");
+        decimal salary1 = decimal.Parse(Console.ReadLine());
+
+        Employee nv = new Employee(id1, name1, year1, salary1);
+
+        Console.WriteLine();
+
+        Console.WriteLine("NHAP THONG TIN QUAN LY");
+
+        Console.Write("Nhap ID: ");
+        string id2 = Console.ReadLine();
+
+        Console.Write("Nhap ho ten: ");
+        string name2 = Console.ReadLine();
+
+        Console.Write("Nhap nam sinh: ");
+        int year2 = int.Parse(Console.ReadLine());
+
+        Console.Write("Nhap luong co ban: ");
+        decimal salary2 = decimal.Parse(Console.ReadLine());
+
+        Console.Write("Nhap phu cap: ");
+        decimal allowance = decimal.Parse(Console.ReadLine());
+
+        Manager ql = new Manager(id2, name2, year2, salary2, allowance);
+
+        Console.WriteLine();
+        Console.WriteLine("===== PHIEU LUONG NHAN VIEN =====");
+        Console.WriteLine("ID: " + nv.Id);
+        Console.WriteLine("Ten: " + nv.FullName);
+        Console.WriteLine("Tuoi: " + nv.GetAge(2026));
+        Console.WriteLine("Luong co ban: " + nv.BaseSalary + " VND");
+        Console.WriteLine("Thu nhap: " + nv.CalculateIncome() + " VND");
+
+        Console.WriteLine();
+        Console.WriteLine("===== PHIEU LUONG QUAN LY =====");
+        Console.WriteLine("ID: " + ql.Id);
+        Console.WriteLine("Ten: " + ql.FullName);
+        Console.WriteLine("Tuoi: " + ql.GetAge(2026));
+        Console.WriteLine("Luong co ban: " + ql.BaseSalary + " VND");
+        Console.WriteLine("Phu cap: " + ql.ResponsibilityAllowance + " VND");
+        Console.WriteLine("Thu nhap: " + ql.CalculateIncome() + " VND");
+
+        Console.ReadKey();
+    }
+}
