@@ -1,0 +1,125 @@
+using System;
+
+interface IPayable
+{
+    bool ProcessPayment(decimal amount);
+}
+
+interface IRefundable
+{
+    bool ProcessRefund(decimal amount, string reason);
+}
+
+abstract class PaymentGateway
+{
+    public string TransactionId { get; private set; }
+    public DateTime CreationDate { get; private set; }
+    public string Status { get; protected set; }
+
+    protected PaymentGateway(string transactionId)
+    {
+        TransactionId = transactionId;
+        CreationDate = DateTime.Now;
+        Status = "Pending";
+    }
+
+    public abstract void ValidateConnection();
+
+    public virtual void LogTransaction(string message)
+    {
+        Console.WriteLine("Ma giao dich: " + TransactionId);
+        Console.WriteLine("Nhat ky: " + message);
+    }
+}
+
+class MomoPayment : PaymentGateway, IPayable, IRefundable
+{
+    public string PhoneNumber { get; set; }
+
+    public MomoPayment(string transactionId, string phoneNumber)
+        : base(transactionId)
+    {
+        PhoneNumber = phoneNumber;
+    }
+
+    public override void ValidateConnection()
+    {
+        Console.WriteLine("Dang kiem tra ket noi API MoMo...");
+        Console.WriteLine("Ket noi API MoMo thanh cong.");
+    }
+
+    public bool ProcessPayment(decimal amount)
+    {
+        if (amount > 0 && PhoneNumber != "")
+        {
+            Status = "Success";
+            Console.WriteLine("Thanh toan thanh cong.");
+            return true;
+        }
+
+        Console.WriteLine("Thong tin thanh toan khong hop le.");
+        return false;
+    }
+
+    public bool ProcessRefund(decimal amount, string reason)
+    {
+        if (amount > 0 && reason != "")
+        {
+            Status = "Refunded";
+            Console.WriteLine("Ly do hoan tien: " + reason);
+            Console.WriteLine("Hoan tien thanh cong.");
+            return true;
+        }
+
+        Console.WriteLine("Thong tin hoan tien khong hop le.");
+        return false;
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        Console.WriteLine("===== HE THONG THANH TOAN MOMO =====");
+
+        Console.Write("Nhap ma giao dich: ");
+        string transactionId = Console.ReadLine();
+
+        Console.Write("Nhap so dien thoai: ");
+        string phoneNumber = Console.ReadLine();
+
+        MomoPayment momo = new MomoPayment(transactionId, phoneNumber);
+
+        Console.WriteLine();
+
+        momo.ValidateConnection();
+
+        Console.WriteLine();
+        Console.Write("Nhap so tien thanh toan: ");
+        decimal amount = decimal.Parse(Console.ReadLine());
+
+        IPayable thanhToan = (IPayable)momo;
+        thanhToan.ProcessPayment(amount);
+
+        Console.WriteLine();
+        Console.WriteLine("Trang thai: " + momo.Status);
+
+        Console.WriteLine();
+        Console.Write("Nhap so tien muon hoan: ");
+        decimal refundAmount = decimal.Parse(Console.ReadLine());
+
+        Console.Write("Nhap ly do hoan tien: ");
+        string reason = Console.ReadLine();
+
+        IRefundable hoanTien = (IRefundable)momo;
+        hoanTien.ProcessRefund(refundAmount, reason);
+
+        Console.WriteLine();
+        Console.WriteLine("Trang thai: " + momo.Status);
+
+        Console.WriteLine();
+        momo.LogTransaction("Da xu ly giao dich.");
+
+        Console.ReadKey();
+    }
+}
