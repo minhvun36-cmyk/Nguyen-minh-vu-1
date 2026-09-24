@@ -1,0 +1,60 @@
+using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
+
+namespace CourseRegistration
+{
+    public partial class Form1 : Form
+    {
+        public class Course
+        {
+            public int ID {get;set;}
+            public string Name {get;set;}
+        }
+
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            List<Course> courses = new List<Course>()
+            {
+                new Course{ID=1, Name="Java"},
+                new Course{ID=2, Name="C#"},
+                new Course{ID=3, Name="Python"},
+                new Course{ID=4, Name="AI"}
+            };
+
+            cboCourse.DataSource = courses;
+            cboCourse.DisplayMember = "Name";
+            cboCourse.ValueMember = "ID";
+
+            dtpBirthDate.Format = DateTimePickerFormat.Custom;
+            dtpBirthDate.CustomFormat = "dd/MM/yyyy";
+
+            mtxtPhone.Mask = "(000) 000-0000";
+        }
+
+        private void btnRegister_Click(object sender, EventArgs e)
+        {
+            string gender = rdoMale.Checked ? "Nam" : "Nữ";
+
+            string hobby = "";
+            if(chkProgramming.Checked) hobby += "Lập trình ";
+            if(chkSport.Checked) hobby += "Thể thao";
+
+            string result =
+                "Họ tên: " + txtName.Text +
+                "\nSĐT: " + mtxtPhone.Text +
+                "\nNgày sinh: " + dtpBirthDate.Value.ToString("dd/MM/yyyy") +
+                "\nKhóa học: " + cboCourse.Text +
+                "\nMã khóa học: " + cboCourse.SelectedValue +
+                "\nGiới tính: " + gender +
+                "\nSở thích: " + hobby;
+
+            MessageBox.Show(result,"Thông tin đăng ký");
+        }
+    }
+}
